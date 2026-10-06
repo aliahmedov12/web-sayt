@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – CyberLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#070b14;--bg2:#0b1220;--panel:#0e1627;--border:#1c2a44;--text:#e6edf8;--muted:#8393ad;--cyan:#22d3ee;--violet:#7c5cff;--green:#34d399;--grad:linear-gradient(90deg,var(--cyan),var(--violet))}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+    .mono{font-family:'JetBrains Mono',monospace}
+
+    header{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;height:68px;gap:40px}
+    .logo{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;flex-shrink:0}
+    .logo-mark{width:32px;height:32px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
+    .logo span{color:var(--cyan)}
+    .links{display:flex;gap:8px;font-size:14px;font-weight:500;color:var(--muted);flex:1;justify-content:center}
+    .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;border-radius:10px;font-size:11.5px;font-weight:600;color:var(--muted);transition:.15s}
+    .nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+    .nav-item.active{color:var(--cyan);background:rgba(34,211,238,.08)}
+    .nav-icon{font-size:18px;line-height:1}
+    .chip{display:flex;align-items:center;gap:9px;padding:6px 14px 6px 6px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.02)}
+    .avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;color:#04121c}
+    .actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .btn{padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text)}
+    .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+
+    main{padding:56px 0 90px}
+    .welcome h1{font-size:34px;font-weight:800;letter-spacing:-.8px;margin-bottom:8px}
+    .welcome p{color:var(--muted);font-size:15.5px;margin-bottom:40px}
+
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:52px}
+    .stat{padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:14px}
+    .stat .num{font-size:30px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .stat .label{color:var(--muted);font-size:13.5px;margin-top:6px}
+
+    .section-title{font-size:20px;font-weight:700;margin-bottom:20px}
+    .rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .room{padding:22px;background:var(--panel);border:1px solid var(--border);border-radius:12px;transition:.2s}
+    .room:hover{border-color:var(--cyan);transform:translateY(-3px)}
+    .room .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:24px}
+    .chip-sm{font:600 11.5px 'JetBrains Mono',monospace;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+    .chip-sm.easy{color:var(--green);border-color:rgba(52,211,153,.35)}
+    .room h4{font-size:16px;margin-bottom:6px}
+    .room p{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+    .room .go{font:600 13px 'JetBrains Mono',monospace;color:var(--cyan)}
+
+    @media(max-width:900px){.stats,.rooms{grid-template-columns:1fr}.links{display:none}}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap nav">
+      <a href="/dashboard.html" class="logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5.5V11c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5.5L12 2z" stroke="#04121c" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#04121c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        cyber<span>lab</span>
+      </a>
+      <nav class="links">
+        <a href="/dashboard.html" class="nav-item active"><span class="nav-icon">🖥️</span><span>Dashboard</span></a>
+        <a href="/learn.html" class="nav-item"><span class="nav-icon">🗺️</span><span>Learn</span></a>
+        <a href="/labs.html" class="nav-item"><span class="nav-icon">🧪</span><span>Labs</span></a>
+        <a href="/leaderboard.html" class="nav-item"><span class="nav-icon">🏆</span><span>Leaderboard</span></a>
+        <a href="/about.html" class="nav-item"><span class="nav-icon">ℹ️</span><span>About</span></a>
+      </nav>
+      <div class="actions">
+        <div class="chip">
+          <div class="avatar" id="avatarLetter">?</div>
+          <span class="mono" id="usernameText" style="font-size:13.5px">...</span>
+        </div>
+        <button class="btn" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="welcome">
+      <h1 id="welcomeTitle">Welcome back</h1>
+      <p>Pick up where you left off, or start a new room.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num" id="pointsNum">0</div><div class="label">Points</div></div>
+      <div class="stat"><div class="num" id="roomsCompletedNum">0</div><div class="label">Rooms completed</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">Day streak</div></div>
+    </div>
+
+    <div class="section-title">All Labs</div>
+    <div class="rooms" id="roomsGrid"></div>
+  </main>
+
+  <script>
+    const LABS = [
+      { id: 'password-security', icon: '🔑', desc: 'Why weak passwords fall and how attackers crack them.' },
+      { id: 'phishing-basics',   icon: '🎣', desc: 'Spot fake emails, links and login pages.' },
+      { id: 'linux-fundamentals',icon: '🐧', desc: 'Navigate the terminal like a pro.' },
+      { id: 'networking-basics', icon: '🌐', desc: 'How devices talk to each other over a network.' },
+      { id: 'web-basics',        icon: '💻', desc: 'The building blocks of how websites work.' },
+      { id: 'social-engineering',icon: '🎭', desc: 'How attackers manipulate people, not just machines.' }
+    ];
+
+    async function loadDashboard() {
+      const meRes = await fetch('/me', { credentials: 'include' });
+      const u = await meRes.json();
+      if (!u.loggedIn) { window.location.href = '/login.html'; return; }
+
+      document.getElementById('usernameText').textContent = u.username;
+      document.getElementById('avatarLetter').textContent = u.username.charAt(0).toUpperCase();
+      document.getElementById('welcomeTitle').textContent = 'Welcome back, ' + u.username;
+      document.getElementById('pointsNum').textContent = u.points ?? 0;
+
+      const withProgress = [];
+      for (const lab of LABS) {
+        const r = await fetch('/api/rooms/' + lab.id, { credentials: 'include' });
+        const room = await r.json();
+        const total = room.tasks.length;
+        const done = room.doneTasks.length;
+        withProgress.push({ ...lab, title: room.title, total, done, finished: done === total });
+      }
+
+      document.getElementById('roomsCompletedNum').textContent = withProgress.filter(l => l.finished).length;
+
+      const grid = document.getElementById('roomsGrid');
+      grid.innerHTML = '';
+      withProgress.forEach(lab => {
+        const div = document.createElement('div');
+        div.className = 'room';
+        div.innerHTML = `
+          <div class="top">${lab.icon}<span class="chip-sm ${lab.finished ? 'easy' : ''}">${lab.finished ? '✔ done' : lab.total + ' tasks'}</span></div>
+          <h4>${lab.title}</h4>
+          <p>${lab.desc}</p>
+          <a class="go" href="/room.html?id=${lab.id}">${lab.finished ? 'Review room' : lab.done > 0 ? 'Continue' : 'Start room'} →</a>
+        `;
+        grid.appendChild(div);
+      });
+    }
+    loadDashboard();
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      fetch('/logout', { method: 'POST', credentials: 'include' })
+        .then(() => window.location.href = '/');
+    });
+  </script>
+</body>
+</html>

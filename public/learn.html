@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn – CyberLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#070b14;--panel:#0e1627;--border:#1c2a44;--text:#e6edf8;--muted:#8393ad;--cyan:#22d3ee;--violet:#7c5cff;--green:#34d399;--grad:linear-gradient(90deg,var(--cyan),var(--violet))}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:820px;margin:0 auto;padding:0 28px}
+    .mono{font-family:'JetBrains Mono',monospace}
+
+    header{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1140px;margin:0 auto;padding:0 28px;display:flex;align-items:center;height:68px;gap:40px}
+    .logo{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;flex-shrink:0}
+    .logo-mark{width:32px;height:32px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
+    .logo span{color:var(--cyan)}
+    .links{display:flex;gap:8px;font-size:14px;font-weight:500;color:var(--muted);flex:1;justify-content:center}
+    .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;border-radius:10px;font-size:11.5px;font-weight:600;color:var(--muted);transition:.15s}
+    .nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+    .nav-item.active{color:var(--cyan);background:rgba(34,211,238,.08)}
+    .nav-icon{font-size:18px;line-height:1}
+    .chip{display:flex;align-items:center;gap:9px;padding:6px 14px 6px 6px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.02)}
+    .avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;color:#04121c}
+    .actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .btn{padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text)}
+    .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+
+    main{padding:64px 0 100px}
+    .head{text-align:center;margin-bottom:56px}
+    .head h1{font-size:36px;font-weight:800;letter-spacing:-.8px;margin-bottom:10px}
+    .head p{color:var(--muted);font-size:15.5px;max-width:520px;margin:0 auto}
+
+    .path-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:0}
+    .path-top{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+    .path-icon{width:48px;height:48px;border-radius:12px;background:rgba(34,211,238,.1);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+    .path-title{font-size:19px;font-weight:700;margin-bottom:4px}
+    .path-desc{color:var(--muted);font-size:13.5px}
+    .path-progress{margin-left:auto;text-align:right;flex-shrink:0}
+    .path-progress .n{font:700 18px 'JetBrains Mono',monospace;color:var(--cyan)}
+    .path-progress .l{color:var(--muted);font-size:11.5px}
+
+    .room-list{display:flex;flex-direction:column;gap:10px}
+    .room-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;transition:.15s}
+    .room-row:hover{border-color:var(--cyan)}
+    .room-num{width:26px;height:26px;border-radius:50%;background:#16213a;color:var(--muted);display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono',monospace;flex-shrink:0}
+    .room-row.done .room-num{background:var(--green);color:#04121c}
+    .room-icon{font-size:18px}
+    .room-name{flex:1;font-size:14.5px;font-weight:600}
+    .room-status{font:600 11.5px 'JetBrains Mono',monospace;color:var(--muted)}
+    .room-row.done .room-status{color:var(--green)}
+    .room-go{font:600 12.5px 'JetBrains Mono',monospace;color:var(--cyan)}
+
+    .connector{display:flex;justify-content:center;padding:18px 0}
+    .connector span{color:var(--muted);font-size:20px}
+
+    @media(max-width:900px){.links{display:none}}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <a href="/dashboard.html" class="logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5.5V11c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5.5L12 2z" stroke="#04121c" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#04121c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        cyber<span>lab</span>
+      </a>
+      <nav class="links">
+        <a href="/dashboard.html" class="nav-item"><span class="nav-icon">🖥️</span><span>Dashboard</span></a>
+        <a href="/learn.html" class="nav-item active"><span class="nav-icon">🗺️</span><span>Learn</span></a>
+        <a href="/labs.html" class="nav-item"><span class="nav-icon">🧪</span><span>Labs</span></a>
+        <a href="/leaderboard.html" class="nav-item"><span class="nav-icon">🏆</span><span>Leaderboard</span></a>
+        <a href="/about.html" class="nav-item"><span class="nav-icon">ℹ️</span><span>About</span></a>
+      </nav>
+      <div class="actions">
+        <div class="chip">
+          <div class="avatar" id="avatarLetter">?</div>
+          <span class="mono" id="usernameText" style="font-size:13.5px">...</span>
+        </div>
+        <button class="btn" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="head">
+      <h1>Learning Roadmap</h1>
+      <p>Follow a guided path from the basics to more technical topics. Complete each room in order to build your skills step by step.</p>
+    </div>
+
+    <div id="pathsContainer"></div>
+  </main>
+
+  <script>
+    const PATHS = [
+      {
+        icon: '🧭',
+        title: 'Beginner Path',
+        desc: 'Start here — no technical background needed.',
+        rooms: [
+          { id: 'password-security', icon: '🔑' },
+          { id: 'phishing-basics', icon: '🎣' },
+          { id: 'social-engineering', icon: '🎭' }
+        ]
+      },
+      {
+        icon: '💻',
+        title: 'Technical Fundamentals',
+        desc: 'The building blocks behind how systems and networks work.',
+        rooms: [
+          { id: 'linux-fundamentals', icon: '🐧' },
+          { id: 'networking-basics', icon: '🌐' },
+          { id: 'web-basics', icon: '💻' }
+        ]
+      }
+    ];
+
+    async function init() {
+      const meRes = await fetch('/me', { credentials: 'include' });
+      const me = await meRes.json();
+      if (!me.loggedIn) { window.location.href = '/login.html'; return; }
+      document.getElementById('usernameText').textContent = me.username;
+      document.getElementById('avatarLetter').textContent = me.username.charAt(0).toUpperCase();
+
+      const container = document.getElementById('pathsContainer');
+
+      for (let p = 0; p < PATHS.length; p++) {
+        const path = PATHS[p];
+        const roomsData = [];
+        for (const r of path.rooms) {
+          const res = await fetch('/api/rooms/' + r.id, { credentials: 'include' });
+          const room = await res.json();
+          const total = room.tasks.length;
+          const done = room.doneTasks.length;
+          roomsData.push({ ...r, title: room.title, total, done, finished: done === total });
+        }
+        const completedRooms = roomsData.filter(r => r.finished).length;
+
+        const card = document.createElement('div');
+        card.className = 'path-card';
+        card.innerHTML = `
+          <div class="path-top">
+            <div class="path-icon">${path.icon}</div>
+            <div>
+              <div class="path-title">${path.title}</div>
+              <div class="path-desc">${path.desc}</div>
+            </div>
+            <div class="path-progress">
+              <div class="n">${completedRooms}/${roomsData.length}</div>
+              <div class="l">rooms done</div>
+            </div>
+          </div>
+          <div class="room-list">
+            ${roomsData.map((r, i) => `
+              <a href="/room.html?id=${r.id}" class="room-row ${r.finished ? 'done' : ''}">
+                <div class="room-num">${r.finished ? '✔' : i + 1}</div>
+                <span class="room-icon">${r.icon}</span>
+                <span class="room-name">${r.title}</span>
+                <span class="room-status">${r.finished ? 'Completed' : r.done > 0 ? r.done + '/' + r.total : r.total + ' tasks'}</span>
+                <span class="room-go">${r.finished ? 'Review' : r.done > 0 ? 'Continue' : 'Start'} →</span>
+              </a>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(card);
+
+        if (p < PATHS.length - 1) {
+          const conn = document.createElement('div');
+          conn.className = 'connector';
+          conn.innerHTML = '<span>↓</span>';
+          container.appendChild(conn);
+        }
+      }
+    }
+    init();
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      fetch('/logout', { method: 'POST', credentials: 'include' })
+        .then(() => window.location.href = '/');
+    });
+  </script>
+</body>
+</html>

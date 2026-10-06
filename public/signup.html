@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberLab – Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#070b14;--panel:#0e1627;--border:#1c2a44;--text:#e6edf8;--muted:#8393ad;--cyan:#22d3ee;--violet:#7c5cff;--green:#34d399;--red:#fb7185;--grad:linear-gradient(90deg,var(--cyan),var(--violet))}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;position:relative;overflow:hidden}
+    body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(34,211,238,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 90%);pointer-events:none}
+    body::after{content:"";position:fixed;width:640px;height:640px;left:50%;top:35%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(124,92,255,.16),transparent 65%);pointer-events:none}
+    .card{position:relative;z-index:1;width:100%;max-width:420px;padding:36px 32px;background:linear-gradient(180deg,var(--panel),#0b1220);border:1px solid var(--border);border-radius:16px;box-shadow:0 40px 80px -30px rgba(0,0,0,.7),0 0 60px -20px rgba(34,211,238,.15)}
+    .logo{display:flex;align-items:center;gap:10px;margin-bottom:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--text);text-decoration:none}
+    .logo-mark{width:32px;height:32px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
+    .logo span{color:var(--cyan)}
+    h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+    .sub{color:var(--muted);font-size:14.5px;margin-bottom:26px}
+    label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#c3cee0}
+    .field{margin-bottom:16px}
+    input{width:100%;padding:13px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:15px;font-family:inherit;transition:.15s}
+    input::placeholder{color:#4b5b76}
+    input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.13)}
+    button{width:100%;margin-top:8px;padding:14px;border:0;border-radius:9px;background:var(--grad);color:#04121c;font-weight:700;font-size:15px;font-family:inherit;cursor:pointer;transition:.2s;box-shadow:0 8px 26px -8px rgba(34,211,238,.6)}
+    button:hover{filter:brightness(1.08)}
+    button:disabled{opacity:.6;cursor:wait}
+    .msg{min-height:22px;margin-top:16px;font:500 13px 'JetBrains Mono',monospace}
+    .msg.error{color:var(--red)} .msg.ok{color:var(--green)}
+    .switch{margin-top:22px;text-align:center;font-size:14px;color:var(--muted)}
+    .switch a{color:var(--cyan);text-decoration:none;font-weight:600}
+    .switch a:hover{text-decoration:underline}
+    .back{display:block;margin-top:14px;text-align:center;font:12.5px 'JetBrains Mono',monospace;color:var(--muted);text-decoration:none}
+    .back:hover{color:var(--cyan)}
+  </style>
+</head>
+<body data-mode="signup">
+
+  <div class="card">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5.5V11c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5.5L12 2z" stroke="#04121c" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#04121c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      cyber<span>lab</span>
+    </a>
+
+    <h1 id="title"></h1>
+    <p class="sub" id="subtitle"></p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="hacker_name" autocomplete="username" maxlength="20" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="At least 8 characters" autocomplete="current-password" maxlength="72" required>
+      </div>
+      <div class="field" id="confirmField" hidden>
+        <label for="confirm">Confirm password</label>
+        <input id="confirm" type="password" placeholder="Repeat your password" autocomplete="new-password" maxlength="72">
+      </div>
+      <button type="submit" id="submitBtn"></button>
+      <p class="msg" id="msg" role="alert"></p>
+    </form>
+
+    <p class="switch" id="switchText"></p>
+    <a href="/" class="back">← back to home</a>
+  </div>
+
+  <script>
+    const mode = document.body.dataset.mode; // "login" və ya "signup"
+    const isSignup = mode === 'signup';
+
+    const $ = id => document.getElementById(id);
+    $('title').textContent = isSignup ? 'Create your account' : 'Welcome back';
+    $('subtitle').textContent = isSignup ? 'Join for free and start your first room.' : 'Log in to continue your learning.';
+    $('submitBtn').textContent = isSignup ? 'Create account' : 'Log in';
+    $('confirmField').hidden = !isSignup;
+    $('password').autocomplete = isSignup ? 'new-password' : 'current-password';
+    $('switchText').innerHTML = isSignup
+      ? 'Already have an account? <a href="/login.html">Log in</a>'
+      : 'New here? <a href="/signup.html">Create an account</a>';
+    document.title = (isSignup ? 'Sign up' : 'Log in') + ' – CyberLab';
+
+    function show(text, type) {
+      $('msg').textContent = text;
+      $('msg').className = 'msg ' + (type || '');
+    }
+
+    async function post(url, body) {
+      const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      let data = {};
+      try { data = await res.json(); } catch (_) {}
+      return { ok: res.ok, data };
+    }
+
+    $('form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const username = $('username').value.trim();
+      const password = $('password').value;
+
+      if (!username || !password) return show('Please fill in all fields.', 'error');
+      if (isSignup && password !== $('confirm').value) return show('Passwords do not match.', 'error');
+
+      const btn = $('submitBtn');
+      btn.disabled = true;
+      show('');
+
+      try {
+        if (isSignup) {
+          const r = await post('/register', { username, password });
+          if (!r.ok) { show(r.data.message || 'Something went wrong.', 'error'); return; }
+        }
+        const l = await post('/login', { username, password });
+        if (!l.ok) { show(l.data.message || 'Something went wrong.', 'error'); return; }
+
+        show('Success! Redirecting...', 'ok');
+        setTimeout(() => { window.location.href = '/'; }, 700);
+      } catch (err) {
+        show('Cannot reach the server. Is it running?', 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
